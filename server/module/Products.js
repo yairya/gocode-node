@@ -1,1 +1,1 @@
-export const products = [];
+export const products = [{msg: "test"}];

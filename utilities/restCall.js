@@ -10,11 +10,11 @@ export const GetText = async (address) => {
     }
   }
   
-  export const GetJson = async (address, setFunc) => {
+  export const GetJson = async (address) => {
     try{
       const response = await fetch (address);
       const resJson = await response.json();
-      setFunc(resJson);
+      return resJson;
     }
     catch(err){
       console.log(`catch err: ${err}`);

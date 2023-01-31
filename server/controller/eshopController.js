@@ -6,7 +6,7 @@ import * as RestCall from "../../utilities/restCall.js"
 import * as ProductCollection from "../persistance/productsCollection.js"
 
 dotenv.config();
-const {PORT} = process.env;
+const {USER, PASS, DB_HOST, DB_NAME, PORT} = process.env;
 const mongoDB = "goCodeShop";
 const uriBase="/api/eshop";
 
@@ -128,15 +128,22 @@ app.post(uriBase + "/product/load", async (req, res) => {
 })
 
 //------------------------------------------------------
+
 mongoose.set('strictQuery', true);
-mongoose.connect(`mongodb://127.0.0.1:27017/${mongoDB}`, {
+const dbUrl = `mongodb+srv://${USER}:${PASS}@${DB_HOST}/${DB_NAME}`;
+mongoose.connect(dbUrl, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
-  });
-
-
-app.listen(8080, function(){
-    console.log(`shop Controller listen to 8080`)
-});
+  }, (err) =>  {
+        const msg = err? err : "succeed to connect";
+        console.log("info: " + msg)
+        if( !err)
+        {
+            app.listen(PORT, () => {
+                console.log(`shop Controller listen to ${PORT}`)
+            })
+        }
+    }
+);
 
 }

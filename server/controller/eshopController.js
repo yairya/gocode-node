@@ -46,9 +46,9 @@ app.get(uriBase + "/product/:id", async (req, res) => {
     console.log(`get single product ${id} request is camming`);
     try{
         let product = [];
-        await ProductCollection.ProductModel.find({product_id : id}).then((dbResponse) => {
+        await ProductCollection.ProductModel.find({id : id}).then((dbResponse) => {
             console.log(`succeed to get product id ${id}`);
-            product = dbResponse;
+            product = dbResponse[0];
         });
         res.status(200).send(product);
     }
@@ -93,12 +93,12 @@ app.post(uriBase + "/product/load", async (req, res) => {
             if( !element.id || !element.title || !element.image || !element.price){
                 throw new Error("error in loaded product validation");
             }
-            if(existsProducts.findIndex(p => p.product_id === element.id) != -1){
+            if(existsProducts.findIndex(p => p.id === element.id) != -1){
                 console.log(`product with id: ${element.id} already exists!`)
             }
             else{
                 const newProduct = new ProductCollection.ProductModel({
-                    product_id: element.id,
+                    id: element.id,
                     title: element.title,
                     image: element.image,
                     price: element.price 

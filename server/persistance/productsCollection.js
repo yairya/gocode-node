@@ -3,7 +3,7 @@ import mongoose from "mongoose"
 export const productsCollectionName="products";
 
 export const ProductSchema = new mongoose.Schema({
-    product_id: {
+    id: {
         type: Number,
         require: true
     },
